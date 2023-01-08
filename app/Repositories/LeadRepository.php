@@ -199,8 +199,8 @@ class LeadRepository extends BaseRepository implements LeadContract
      * @return mixed
      */
     public function categoryWiseBlogs($categoryId){
-        $blogs = Blog::with('category')->where('category_id',$categoryId)->get();
+//$blogs = Blog::with('category')->where('category_id',$categoryId)->get();
         
-        return $blogs;
+//return $blogs;
     }
 }
