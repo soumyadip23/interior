@@ -37,6 +37,8 @@ use App\Contracts\CouponContract;
 use App\Repositories\CouponRepository;
 use App\Contracts\RestaurantCouponContract;
 use App\Repositories\RestaurantCouponRepository;
+use App\Contracts\LeadContract;
+use App\Repositories\LeadRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -58,6 +60,7 @@ class RepositoryServiceProvider extends ServiceProvider
         CartContract::class                 =>  CartRepository::class,
         CouponContract::class               =>  CouponRepository::class,
         RestaurantCouponContract::class     =>  RestaurantCouponRepository::class,
+        LeadContract::class                 =>  LeadRepository::class,
     ];
 
     /**

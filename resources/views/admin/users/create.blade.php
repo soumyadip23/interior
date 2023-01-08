@@ -55,7 +55,9 @@
                     <div class="tile-body">
                         <div class="form-group">
                             <label class="control-label" for="address">Address</label>
-                            <input class="form-control" type="text" name="address" id="address" value="{{ old('address') }}"/>
+                            <input class="form-control" type="text" name="address" id="searchTextField" value="{{ old('address') }}"/>
+                                <input type="hidden" id="lat" name="lat" />
+                                 <input type="hidden" id="long" name="long" />
                         </div>
                     </div>
                     <div class="tile-body">

@@ -27,6 +27,8 @@
             need to be included-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"> </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" />
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDulS02jGKU5aYmmR_GbGuyTggLrtdAwu0&v=3.exp&sensor=false&libraries=places"></script>
                    
     <script>
         tinymce.init({
@@ -85,6 +87,18 @@
           $('.categorySelect').select2();
        });
   </script>
+     <script type="text/javascript">
+        function initialize() {
+          var input = document.getElementById('searchTextField');
+          var autocomplete = new google.maps.places.Autocomplete(input);
+            google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                var place = autocomplete.getPlace();
+                document.getElementById('cityLat').value = place.geometry.location.lat();
+                document.getElementById('cityLng').value = place.geometry.location.lng();
+            });
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
     @stack('scripts')
 </body>
 </html>

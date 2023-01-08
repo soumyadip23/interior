@@ -234,6 +234,17 @@ Route::group(['prefix' => 'admin'], function () {
 			Route::post('updateStatus', 'Admin\CouponController@updateStatus')->name('admin.coupon.updateStatus');
 			Route::get('/{id}/details', 'Admin\CouponController@details')->name('admin.coupon.details');
 		});
+
+		Route::group(['prefix'  =>   'lead'], function() {
+			Route::get('/', 'Admin\LeadController@index')->name('admin.lead.index');
+			Route::get('/create', 'Admin\LeadController@create')->name('admin.lead.create');
+			Route::post('/store', 'Admin\LeadController@store')->name('admin.lead.store');
+			Route::get('/{id}/edit', 'Admin\LeadController@edit')->name('admin.lead.edit');
+			Route::post('/update', 'Admin\LeadController@update')->name('admin.lead.update');
+			Route::get('/{id}/delete', 'Admin\LeadController@delete')->name('admin.lead.delete');
+			Route::post('updateStatus', 'Admin\LeadController@updateStatus')->name('admin.lead.updateStatus');
+			Route::get('/{id}/details', 'Admin\LeadController@details')->name('admin.lead.details');
+		});
 	});
 
 });
