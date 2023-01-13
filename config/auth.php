@@ -53,9 +53,13 @@ return [
             'provider' => 'admins',
         ],
 
-        'restaurant' => [
+        'vendor' => [
             'driver' => 'session',
-            'provider' => 'restaurants',
+            'provider' => 'vendors',
+        ],
+        'staff' => [
+            'driver' => 'session',
+            'provider' => 'staffs',
         ],
         'user' => [
             'driver' => 'session',
@@ -95,9 +99,13 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
-        'restaurants' => [
+        'vendors' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Restaurant::class,
+            'model' => App\Models\Vendor::class,
+        ],
+        'staffs' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\DeliveryBoy::class,
         ]
 
         // 'users' => [

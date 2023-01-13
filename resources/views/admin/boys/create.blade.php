@@ -25,14 +25,14 @@
                     <div class="tile-body">
                         <div class="form-group">
                             <label class="control-label" for="email">Email Id <span class="m-l-5 text-danger"> *</span></label>
-                            <input class="form-control @error('email') is-invalid @enderror" type="text" name="email" id="email" value="{{ old('email') }}"/>
+                            <input class="form-control @error('email') is-invalid @enderror" type="text"  autocomplete="off" name="email" id="email" value="{{ old('email') }}"/>
                             @error('email') {{ $message ?? '' }} @enderror
                         </div>
                     </div>
                     <div class="tile-body">
                         <div class="form-group">
                             <label class="control-label" for="password">Password <span class="m-l-5 text-danger"> *</span></label>
-                            <input class="form-control @error('password') is-invalid @enderror" type="password" name="password" id="password" value="{{ old('password') }}"/>
+                            <input class="form-control @error('password') is-invalid @enderror" type="password" autocomplete="off" name="password" id="password" value="{{ old('password') }}"/>
                             @error('password') {{ $message ?? '' }} @enderror
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                     <div class="tile-body">
                         <div class="form-group">
                             <label class="control-label" for="address">Address</label>
-                            <input class="form-control" type="text" name="address" id="address" value="{{ old('address') }}"/>
+                            <input class="form-control" type="text" name="address" id="searchTextField" value="{{ old('address') }}"/>
                         </div>
                     </div>
                     <div class="tile-body">

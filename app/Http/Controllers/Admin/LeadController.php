@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Contracts\LeadContract;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
+use App\Models\DeliveryBoy;
+use App\Contracts\DeliveryBoyContract;
+use App\Models\LeadFeedback;
+use Illuminate\Support\Facades\Session;
+
 
 class LeadController extends BaseController
 {
@@ -13,15 +18,17 @@ class LeadController extends BaseController
      * @var LeadContract
      */
     protected $leadRepository;
+    protected $deliveryBoyRepository;
 
 
     /**
      * PageController constructor.
      * @param LeadContract $leadRepository
      */
-    public function __construct(LeadContract $leadRepository)
+    public function __construct(LeadContract $leadRepository,DeliveryBoyContract $deliveryBoyRepository)
     {
         $this->leadRepository = $leadRepository;
+        $this->deliveryBoyRepository = $deliveryBoyRepository;
         
     }
 
@@ -33,10 +40,10 @@ class LeadController extends BaseController
     {
         $leads = $this->leadRepository->listLeads();
 
-        dd($leads);
+        //dd($leads);
 
-        $this->setPageTitle('Blog', 'List of all blogs');
-        return view('admin.blog.index', compact('blogs'));
+        $this->setPageTitle('Lead', 'List of all Leads');
+        return view('admin.lead.index', compact('leads'));
     }
     
     /**
@@ -44,8 +51,9 @@ class LeadController extends BaseController
      */
     public function create()
     {
-        $this->setPageTitle('Blog', 'Create Blog');
-        return view('admin.blog.create');
+        $this->setPageTitle('Lead', 'Create Lead');
+        $boys = $this->deliveryBoyRepository->getAllBoys();
+        return view('admin.lead.create',compact('boys'));
     }
 
     /**
@@ -56,19 +64,20 @@ class LeadController extends BaseController
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title'      =>  'required|max:191',
-            'image'     =>  'required|mimes:jpg,jpeg,png|max:1000',
-            'description'     =>  'required',
+            'customer_name'      =>  'required|max:191',
+            'customer_address'     =>  'required',
+            'requirement'     =>  'required',
+            'budget'     =>  'required',
         ]);
 
         $params = $request->except('_token');
         
-        $blog = $this->blogRepository->createBlog($params);
+        $lead = $this->leadRepository->createLead($params);
 
-        if (!$blog) {
-            return $this->responseRedirectBack('Error occurred while creating blog.', 'error', true, true);
+        if (!$lead) {
+            return $this->responseRedirectBack('Error occurred while creating lead.', 'error', true, true);
         }
-        return $this->responseRedirect('admin.blog.index', 'Blog has been added successfully' ,'success',false, false);
+        return $this->responseRedirect('admin.lead.index', 'Lead has been added successfully' ,'success',false, false);
     }
 
     /**
@@ -77,10 +86,14 @@ class LeadController extends BaseController
      */
     public function edit($id)
     {
-        $targetBlog = $this->blogRepository->findBlogById($id);
+        $targetlead = $this->leadRepository->findLeadById($id);
+
+        //dd($targetlead);
+
+        $boys = $this->deliveryBoyRepository->getAllBoys();
         
-        $this->setPageTitle('Blog', 'Edit Blog : '.$targetBlog->title);
-        return view('admin.blog.edit', compact('targetBlog'));
+        $this->setPageTitle('lead', 'Edit Lead : '.$targetlead->id);
+        return view('admin.lead.edit', compact('targetlead','boys'));
     }
 
     /**
@@ -91,19 +104,20 @@ class LeadController extends BaseController
     public function update(Request $request)
     {
         $this->validate($request, [
-            'title'      =>  'required|max:191',
-            'image'     =>  'mimes:jpg,jpeg,png|max:1000',
-            'description'     =>  'required',
+            'customer_name'      =>  'required|max:191',
+            'customer_address'     =>  'required',
+            'requirement'     =>  'required',
+            'budget'     =>  'required',
         ]);
 
         $params = $request->except('_token');
 
-        $blog = $this->blogRepository->updateBlog($params);
+        $lead = $this->leadRepository->updateLead($params);
 
-        if (!$blog) {
-            return $this->responseRedirectBack('Error occurred while updating blog.', 'error', true, true);
+        if (!$lead) {
+            return $this->responseRedirectBack('Error occurred while updating lead.', 'error', true, true);
         }
-        return $this->responseRedirectBack('Blog has been updated successfully' ,'success',false, false);
+        return $this->responseRedirectBack('Lead  has been updated successfully' ,'success',false, false);
     }
 
     /**
@@ -112,29 +126,19 @@ class LeadController extends BaseController
      */
     public function delete($id)
     {
-        $blog = $this->blogRepository->deleteBlog($id);
+        $lead = $this->leadRepository->deleteLead($id);
 
-        if (!$blog) {
+        if (!$lead) {
             return $this->responseRedirectBack('Error occurred while deleting blog.', 'error', true, true);
         }
-        return $this->responseRedirect('admin.blog.index', 'Blog has been deleted successfully' ,'success',false, false);
+        return $this->responseRedirect('admin.lead.index', 'Lead has been deleted successfully' ,'success',false, false);
     }
 
     /**
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
-     */
-    public function updateStatus(Request $request){
 
-        $params = $request->except('_token');
-
-        $blog = $this->blogRepository->updateBlogStatus($params);
-
-        if ($blog) {
-            return response()->json(array('message'=>'Blog status has been successfully updated'));
-        }
-    }
 
     /**
      * @param $id
@@ -142,10 +146,49 @@ class LeadController extends BaseController
      */
     public function details($id)
     {
-        $blogs = $this->blogRepository->detailsBlog($id);
-        $blog = $blogs[0];
+        $leads = $this->leadRepository->detailsLead($id);
+        $lead = $leads[0];
 
-        $this->setPageTitle('Blog', 'Blog Details : '.$blog->title);
-        return view('admin.blog.details', compact('blog'));
+        if($lead->assigned_to){
+           $assigned_staff =  DeliveryBoy::where('id',$lead->assigned_to)->first();  
+          // dd($assigned_staff);
+        }
+
+        $this->setPageTitle('lead', 'Lead Details : '.$lead->id);
+        return view('admin.lead.details', compact('lead','assigned_staff'));
+    }
+    public function feedbacks($id)
+    {
+        $lead['lead_id'] = $id;
+        $feedbacks  =  LeadFeedback::where('lead_id',$id)->get();  
+        $this->setPageTitle('lead', 'Lead feedback Details : '.$id);
+        //dd($lead);
+        return view('admin.lead.feedbacks', compact('feedbacks','lead'));
+    }
+    public function feedbacksCreate($id)
+    {
+        $lead['lead_id'] = $id;
+        $this->setPageTitle('lead feedback create', 'Create  Lead feedback(s) LeadID : '.$id);
+        return view('admin.lead.feedback_create',compact('lead'));
+    }
+    public function feedbackStore(Request $request)
+    {
+
+        //dd($request);
+        $this->validate($request, [
+            'client_comment'      =>  'required'
+        ]);
+
+        $params = $request->except('_token');
+        
+        $feedback = $this->leadRepository->createFeedback($params);
+
+        if (!$feedback) {
+            return $this->responseRedirectBack('Error occurred while creating feedback.', 'error', true, true);
+        }
+        //$redirect_url = route('admin.leads.feedback', $params['lead_id']); 
+       // Session::flash('success','Blog has been added successfully');
+        //return $this->responseRedirect($redirect_url, 'Feedback has been added successfully' ,'success',false, false);
+        return redirect()->route('admin.leads.feedback', $params['lead_id']);
     }
 }

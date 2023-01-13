@@ -67,7 +67,8 @@ class CategoryRepository extends BaseRepository implements CategoryContract
 
             $category = new Category;
             $category->title = $collection['title'];
-           // $category->restaurant_id = $collection['restaurant_id'];
+            $category->parent_id = $collection['parent_id'];
+        
             $category->description = '';
             $category->status = '1';
 
@@ -96,13 +97,17 @@ class CategoryRepository extends BaseRepository implements CategoryContract
         $collection = collect($params)->except('_token'); 
 
         $category->title = $collection['title'];
+        $category->parent_id = $collection['parent_id'];
 
-        $profile_image = $collection['image'];
-        $imageName = time().".".$profile_image->getClientOriginalName();
-        $profile_image->move("categories/",$imageName);
-        $uploadedImage = $imageName;
-        $category->image = $uploadedImage;
-
+       // dd($collection);
+      
+      if(isset($collection['image']) &&  $collection['image']!= ""){
+            $profile_image = $collection['image'];
+            $imageName = time().".".$profile_image->getClientOriginalName();
+            $profile_image->move("categories/",$imageName);
+            $uploadedImage = $imageName;
+            $category->image = $uploadedImage;
+        }
         $category->save();
 
         return $category;
@@ -157,6 +162,28 @@ class CategoryRepository extends BaseRepository implements CategoryContract
     /**
      * @return mixed
      */
+    public function allCategoryListTree()
+    {
+        $categories = Category::get()->toArray();
+
+        $cat_with_parent = array();
+
+        foreach($categories as $cat){
+            
+           if($cat['parent_id']!= '0'){
+            $parent_cat =  Category::where('id',$cat['parent_id'])->first();
+            $parent_cat_name = $parent_cat['title'];
+           }
+           else{
+            $parent_cat_name = '';
+           }
+           $cat['parent_name'] = $parent_cat_name;
+           $cat_with_parent[] = $cat;
+        }
+        
+        return $cat_with_parent;
+    }
+
     public function allCategoryList()
     {
         $categories = Category::get();

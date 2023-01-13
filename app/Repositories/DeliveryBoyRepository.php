@@ -111,7 +111,6 @@ class DeliveryBoyRepository extends BaseRepository implements DeliveryBoyContrac
         $deliveryBoy->city = $collection['city'];
         $deliveryBoy->address = $collection['address'];
         $deliveryBoy->pin = $collection['pin'];
-        $deliveryBoy->vehicle_type = $collection['vehicle_type'];
         $deliveryBoy->gender = $collection['gender'];
         $deliveryBoy->date_of_birth = $collection['date_of_birth'];
 
@@ -164,7 +163,7 @@ class DeliveryBoyRepository extends BaseRepository implements DeliveryBoyContrac
      * @return mixed
      */
     public function getAllBoys(){
-        $deliveryBoys =  DeliveryBoy::with('vehicle')->get();
+        $deliveryBoys =  DeliveryBoy::all();
 
         return $deliveryBoys;
     }

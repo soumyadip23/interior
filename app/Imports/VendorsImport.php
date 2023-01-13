@@ -3,11 +3,15 @@
 namespace App\Imports;
 
 use App\Models\Vendor;
+use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithStartRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
+use Throwable;
 
-class VendorsImport implements ToModel,WithStartRow
+
+class VendorsImport implements ToModel,WithStartRow,WithValidation,SkipsOnError
 {
     /**
     * @param array $row
@@ -39,4 +43,13 @@ class VendorsImport implements ToModel,WithStartRow
     {
         return 2;
     }
+    public function rules(): array
+    {
+        return ['*.mobile' => ['mobile','unique:vendors.mobile']];
+    }
+    public function onError(Throwable $error)
+    {
+        
+    }
+
 }

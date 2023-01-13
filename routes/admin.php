@@ -183,8 +183,8 @@ Route::group(['prefix' => 'admin'], function () {
 			Route::post('updateStatus', 'Admin\DeliveryBoyController@updateStatus')->name('admin.boys.updateStatus');
 			Route::get('/{id}/details', 'Admin\DeliveryBoyController@details')->name('admin.boys.details');
 			Route::get('/driver/location', 'Admin\DeliveryBoyController@showLivelocations')->name('admin.driver.livelocation.index');
-			Route::get('/{id}/orders', 'Admin\DeliveryBoyController@orders')->name('admin.boys.orders');
-			Route::get('/{id}/earnings', 'Admin\DeliveryBoyController@earnings')->name('admin.boys.earnings');
+			Route::get('/{id}/genetaredleeds', 'Admin\DeliveryBoyController@genetaredLeeds')->name('admin.boys.genetaredleeds');
+			Route::get('/{id}/assignedleeds', 'Admin\DeliveryBoyController@assignedLeeds')->name('admin.boys.assignedleeds');
 		});
 
 		Route::group(['prefix'  =>   'restaurant'], function() {
@@ -244,7 +244,36 @@ Route::group(['prefix' => 'admin'], function () {
 			Route::get('/{id}/delete', 'Admin\LeadController@delete')->name('admin.lead.delete');
 			Route::post('updateStatus', 'Admin\LeadController@updateStatus')->name('admin.lead.updateStatus');
 			Route::get('/{id}/details', 'Admin\LeadController@details')->name('admin.lead.details');
+			Route::get('/{id}/feedback', 'Admin\LeadController@feedbacks')->name('admin.leads.feedback');
+			Route::any('/{id}/feedback/create', 'Admin\LeadController@feedbacksCreate')->name('admin.leads.feedback.create');
+			Route::post('feedback/store', 'Admin\LeadController@feedbackStore')->name('admin.feedback.store');
 		});
+
+		Route::group(['prefix'  =>   'item'], function() {
+			Route::get('/', 'Admin\ItemController@index')->name('admin.item.index');
+			Route::get('/create', 'Admin\ItemController@create')->name('admin.item.create');
+			Route::post('/store', 'Admin\ItemController@store')->name('admin.item.store');
+			Route::get('/{id}/edit', 'Admin\ItemController@edit')->name('admin.item.edit');
+			Route::post('/update', 'Admin\ItemController@update')->name('admin.item.update');
+			Route::get('/{id}/delete', 'Admin\ItemController@delete')->name('admin.item.delete');
+			Route::get('/{id}/details', 'Admin\ItemController@details')->name('admin.item.details');
+			Route::post('fetchPrice', 'Admin\ItemController@fetchPrice')->name('admin.item.fetchPrice');
+		});
+
+
+		Route::group(['prefix'  =>   'quatation'], function() {
+			Route::get('/', 'Admin\QuatationController@index')->name('admin.quatation.index');
+			Route::get('/create', 'Admin\QuatationController@create')->name('admin.quatation.create');
+			Route::post('/store', 'Admin\Quatationtroller@store')->name('admin.quatation.store');
+			Route::get('/{id}/edit', 'Admin\QuatationController@edit')->name('admin.quatation.edit');
+			Route::post('/update', 'Admin\QuatationController@update')->name('admin.quatation.update');
+			Route::get('/{id}/delete', 'Admin\QuatationController@delete')->name('admin.quatation.delete');
+			Route::get('/{id}/details', 'Admin\QuatationController@details')->name('admin.quatation.details');
+		});
+
+
+
+
 	});
 
 });

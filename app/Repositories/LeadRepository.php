@@ -1,15 +1,15 @@
 <?php
 namespace App\Repositories;
 
-use App\Models\Blog;
-use App\Models\Blogcategory;
-use App\Models\Blogtag;
+use App\Models\Lead;
 use App\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
 use App\Contracts\LeadContract;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
+use Auth;
+use App\Models\LeadFeedback;
 
 /**
  * Class LeadRepository
@@ -21,10 +21,10 @@ class LeadRepository extends BaseRepository implements LeadContract
     use UploadAble;
 
     /**
-     * BlogRepository constructor.
-     * @param Blog $model
+     * LeadRepository constructor.
+     * @param Lead $model
      */
-    public function __construct(Blog $model)
+    public function __construct(Lead $model)
     {
         parent::__construct($model);
         $this->model = $model;
@@ -39,6 +39,12 @@ class LeadRepository extends BaseRepository implements LeadContract
     public function listLeads(string $order = 'id', string $sort = 'desc', array $columns = ['*'])
     {
         return $this->all($columns, $order, $sort);
+    }
+
+    public function listStaffLeads(int $id)
+    {
+        $leads = Lead::where('assigned_to',$id)->get(); 
+        return $leads;
     }
 
     /**
@@ -67,19 +73,51 @@ class LeadRepository extends BaseRepository implements LeadContract
 
             $collection = collect($params);
 
-            $blog = new Blog;
-            $blog->title = $collection['title'];
-            $blog->description = $collection['description'];
+            $lead = new Lead;
+            $lead->uid = 'LEAD-' . time();
+            $lead->customer_name = $collection['customer_name'];
+            $lead->customer_mobile = $collection['customer_mobile'];
+            $lead->customer_email = $collection['customer_email'];
+            $lead->customer_address	 = $collection['customer_address'];
+            $lead->customer_lat = $collection['lat'];
+            $lead->customer_long = $collection['long'];
+            $lead->requirement = $collection['requirement'];
+            $lead->source = $collection['source'];
+            $lead->remarks = $collection['remarks'];
+            $lead->budget = $collection['budget'];
+            $lead->created_by = auth()->user()->id;
+            if(isset($collection['assigned_to'])){
+                     $lead->assigned_to = $collection['assigned_to'];
+            }else{
+                     $lead->assigned_to = auth()->user()->id;
+            }
+            $lead->status = $collection['status'];
 
-            $profile_image = $collection['image'];
-            $imageName = time().".".$profile_image->getClientOriginalName();
-            $profile_image->move("Blogs/",$imageName);
-            $uploadedImage = $imageName;
-            $blog->image = $uploadedImage;
+
             
-            $blog->save();
+            $lead->save();
 
-            return $blog;
+            return $lead;
+            
+        } catch (QueryException $exception) {
+            throw new InvalidArgumentException($exception->getMessage());
+        }
+    }
+
+    public function createFeedback(array $params)
+    {
+        try {
+
+            $collection = collect($params);
+
+            $lead_feedback  = new LeadFeedback;
+            $lead_feedback->lead_id = $collection['lead_id'];
+            $lead_feedback->client_comment = $collection['client_comment'];
+            $lead_feedback->staff_comment = $collection['staff_comment'];
+            $lead_feedback->next_follow_date = $collection['next_follow_date'];
+            $lead_feedback->save();
+
+            return $lead_feedback;
             
         } catch (QueryException $exception) {
             throw new InvalidArgumentException($exception->getMessage());
@@ -92,21 +130,30 @@ class LeadRepository extends BaseRepository implements LeadContract
      */
     public function updateLead(array $params)
     {
-        $blog = $this->findOneOrFail($params['id']); 
+        $lead = $this->findOneOrFail($params['id']); 
         $collection = collect($params)->except('_token'); 
 
-        $blog->title = $collection['title'];
-        $blog->description = $collection['description'];
+        $lead->customer_name = $collection['customer_name'];
+        $lead->customer_mobile = $collection['customer_mobile'];
+        $lead->customer_email = $collection['customer_email'];
+        $lead->customer_address	 = $collection['customer_address'];
+        if($collection['lat'] != ""){
+            $lead->customer_lat = $collection['lat'];
+        }
+        if($collection['long'] != ""){
+            $lead->customer_long = $collection['long'];
+        }
+        $lead->requirement = $collection['requirement'];
+        $lead->source = $collection['source'];
+        $lead->remarks = $collection['remarks'];
+        $lead->budget = $collection['budget'];
+        $lead->created_by = auth()->user()->id;
+        $lead->assigned_to = $collection['assigned_to'];
+        $lead->status = $collection['status'];
 
-        $profile_image = $collection['image'];
-        $imageName = time().".".$profile_image->getClientOriginalName();
-        $profile_image->move("Blogs/",$imageName);
-        $uploadedImage = $imageName;
-        $blog->image = $uploadedImage;
+        $lead->save();
 
-        $blog->save();
-
-        return $blog;
+        return $lead;
     }
 
     /**
@@ -115,9 +162,9 @@ class LeadRepository extends BaseRepository implements LeadContract
      */
     public function deleteLead($id)
     {
-        $blog = $this->findOneOrFail($id);
-        $blog->delete();
-        return $blog;
+        $lead = $this->findOneOrFail($id);
+        $lead->delete();
+        return $lead;
     }
 
     /**
@@ -138,9 +185,11 @@ class LeadRepository extends BaseRepository implements LeadContract
      * @return mixed
      */
     public function detailsLead($id){
-        $blogs = Blog::with('category')->with('tags')->where('id',$id)->get();
+        $leads = Lead::where('id',$id)->get();
+
+       
         
-        return $blogs;
+        return $leads;
     }
 
     /**

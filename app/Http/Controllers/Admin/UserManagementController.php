@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Models\Category;
 use App\Contracts\UserContract;
 use App\Contracts\OrderContract;
 use App\Contracts\CartContract;
@@ -73,16 +74,8 @@ class UserManagementController extends BaseController
     	$users = $this->UserRepository->searchUserData($name,$mobile,$email,$location,$cat_id);
 
 
-        // $cat_array = [];
-
-        // foreach($user_categories as $u_cat){
-        //     $cat_array[] = $u_cat['cat_id'];
-        // }
-
-        //dd($cat_id);
         
-        $categories = $this->categoryRepository->allCategoryList();
-        //dd($categories);
+        $categories = Category::where('parent_id', '=', 0)->get();
     	$this->setPageTitle('vendors', 'List of all vendors');
     	return view('admin.users.index',compact('users','categories','location','cat_id'));
     }
@@ -92,7 +85,7 @@ class UserManagementController extends BaseController
      */
     public function create()
     {
-        $categories = $this->categoryRepository->allCategoryList();
+        $categories = Category::where('parent_id', '=', 0)->get();
         $this->setPageTitle('Vendor', 'Create Vendor');
         //dd($categories);
         return view('admin.users.create', compact('categories'));
@@ -158,9 +151,8 @@ class UserManagementController extends BaseController
     {
         $targetUser = $this->UserRepository->getUserDetails($id)[0];
 
-        //dd($targetUser);
 
-        $categories = $this->categoryRepository->allCategoryList();
+        $categories = Category::where('parent_id', '=', 0)->get();
 
 
         $user_categories =  VendorCategories::select('cat_id')

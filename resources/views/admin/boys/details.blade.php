@@ -15,8 +15,8 @@
     @include('admin.partials.flash')
     <div class="details_badge_list d-flex flex-wrap mb-3 mb-lg-3">
         <a href="{{ route('admin.boys.details', $boy['id']) }}" class="details_badge_item btn btn-primary">Basic Details</a>
-        <a href="{{ route('admin.boys.orders', $boy['id']) }}" class="details_badge_item btn btn-primary">Assigned Tasks</a>
-        <a href="{{ route('admin.boys.earnings', $boy['id']) }}" class="details_badge_item btn btn-primary">Earning List</a>
+        <a href="{{ route('admin.boys.genetaredleeds', $boy['id']) }}" class="details_badge_item btn btn-primary">Generated Leads</a>
+        <a href="{{ route('admin.boys.assignedleeds', $boy['id']) }}" class="details_badge_item btn btn-primary">Assigned Leads</a>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -56,10 +56,6 @@
                         <tr>
                             <td>Pin Code</td>
                             <td>{{ empty($boy['pin'])? null:$boy['pin'] }}</td>
-                        </tr>
-                        <tr>
-                            <td>Vehicle</td>
-                            <td>{{ empty($boy['vehicle_type'])? null:$boy->vehicle['name'] }}</td>
                         </tr>
                         <tr>
                             <td>Gender</td>

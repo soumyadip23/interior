@@ -16,6 +16,8 @@ interface LeadContract
      */
     public function listLeads(string $order = 'id', string $sort = 'desc', array $columns = ['*']);
 
+    public function listStaffLeads(int $id);
+
     /**
      * @param int $id
      * @return mixed
@@ -27,6 +29,8 @@ interface LeadContract
      * @return mixed
      */
     public function createLead(array $params);
+
+    public function createFeedback(array $params);
 
     /**
      * @param array $params

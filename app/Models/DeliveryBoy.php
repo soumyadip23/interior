@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class DeliveryBoy extends Model
+class DeliveryBoy extends Authenticatable
 {
     protected $table = 'staffs';
 
@@ -12,8 +13,5 @@ class DeliveryBoy extends Model
         'name', 'mobile', 'email', 'password', 'image', 'country', 'city', 'address', 'pin','gender','date_of_birth', 'status', 'is_deleted', 'is_available',
     ];
 
-    //hasOne relation with Vehicle Model
-    public function vehicle(){
-        return $this->hasOne(Vehicle::class, 'id', 'vehicle_type');
-    }
+
 }

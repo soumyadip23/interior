@@ -11,6 +11,7 @@ use Illuminate\Http\Response;
 use Auth;
 use Session;
 use App\Models\DriverLocation;
+use App\Models\Lead;
 class DeliveryBoyController extends BaseController
 {
 
@@ -43,11 +44,10 @@ class DeliveryBoyController extends BaseController
      */
     public function create()
     {
-        $vehicles = $this->vehicleRepository->listVehicles();
+   
+        $this->setPageTitle('Staff', 'Create Staff');
 
-        $this->setPageTitle('Delivery Boy', 'Create Delivery Boy');
-
-        return view('admin.boys.create',compact('vehicles'));
+        return view('admin.boys.create');
     }
 
     /**
@@ -82,11 +82,9 @@ class DeliveryBoyController extends BaseController
     public function edit($id)
     {
         $targetBoy = $this->deliveryBoyRepository->findDeliveryBoyById($id);
-
-        $vehicles = $this->vehicleRepository->listVehicles();
         
-        $this->setPageTitle('Delivery Boy', 'Edit delivery boy : '.$targetBoy->name);
-        return view('admin.boys.edit', compact('targetBoy','vehicles'));
+        $this->setPageTitle('Staff', 'Edit Staff: '.$targetBoy->name);
+        return view('admin.boys.edit', compact('targetBoy'));
     }
 
     /**
@@ -152,7 +150,7 @@ class DeliveryBoyController extends BaseController
         $boys = $this->deliveryBoyRepository->detailsDeliveryBoy($id);
         $boy = $boys[0];
         
-        $this->setPageTitle('Delivery Boy', 'Boy Details : '.$boy->name);
+        $this->setPageTitle('Staff', 'Staff Details : '.$boy->name);
         return view('admin.boys.details', compact('boy'));
     }
 
@@ -196,5 +194,18 @@ class DeliveryBoyController extends BaseController
         
         $this->setPageTitle('Delivery Boy', 'Boy Details : '.$boy->name);
         return view('admin.boys.earnings', compact('boy','id'));
+    }
+    public function genetaredLeeds($id)
+    {
+        $generated_leads =  Lead::where('created_by',$id)->get(); 
+        $this->setPageTitle('Staff', 'Generated leads : '.$id);
+        return view('admin.boys.generated_leads', compact('generated_leads'));
+    }
+    public function assignedLeeds($id)
+    {
+        
+        $assigned_leads =  Lead::where('assigned_to',$id)->get(); 
+        $this->setPageTitle('Staff', 'Assigned leads : '.$id);
+        return view('admin.boys.assigned_leads', compact('assigned_leads'));
     }
 }

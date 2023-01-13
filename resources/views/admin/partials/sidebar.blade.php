@@ -73,6 +73,12 @@
                 <span class="app-menu__label">Category Management</span>
             </a>
         </li>
+        <li>
+            <a class="app-menu__item {{ sidebar_open(['admin.item']) }}"
+                href="{{ route('admin.item.index') }}"><i class="app-menu__icon fa fa-cogs"></i>
+                <span class="app-menu__label">Master Item Management</span>
+            </a>
+        </li>
         <!-- <li>
             <a class="app-menu__item {{ sidebar_open(['admin.cousine']) }}"
                 href="{{ route('admin.cousine.index') }}"><i class="app-menu__icon fa fa-cogs"></i>
@@ -119,6 +125,12 @@
             <a class="app-menu__item {{ sidebar_open(['admin.lead']) }}"
                 href="{{ route('admin.lead.index') }}"><i class="app-menu__icon fa fa-cogs"></i>
                 <span class="app-menu__label">Lead Management</span>
+            </a>
+        </li> 
+        <li>
+            <a class="app-menu__item {{ sidebar_open(['admin.quatation']) }}"
+                href="{{ route('admin.quatation.index') }}"><i class="app-menu__icon fa fa-cogs"></i>
+                <span class="app-menu__label">Quatation Management</span>
             </a>
         </li> 
         <li>

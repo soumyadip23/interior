@@ -45,25 +45,13 @@
                     <div class="tile-body">
                         <div class="form-group">
                             <label class="control-label" for="address">Address</label>
-                            <input class="form-control" type="text" name="address" id="address" value="{{ old('address', $targetBoy->address) }}"/>
+                            <input class="form-control" type="text" name="address" id="searchTextField"  value="{{ old('address', $targetBoy->address) }}"/>
                         </div>
                     </div>
                     <div class="tile-body">
                         <div class="form-group">
                             <label class="control-label" for="pin">Pin Code</label>
                             <input class="form-control" type="text" name="pin" id="pin" value="{{ old('pin', $targetBoy->pin) }}"/>
-                        </div>
-                    </div>
-                    <div class="tile-body">
-                        <div class="form-group">
-                            <label class="control-label" for="address">Vehicle <span class="m-l-5 text-danger"> *</span></label>
-                            <select class="form-control" name="vehicle_type">
-                                <option value="">Select Vehicle</option>
-                                @foreach($vehicles as $vehicle)
-                                <option value="{{$vehicle->id}}" @if($vehicle->id==$targetBoy->vehicle_type){{"selected"}}@endif>{{$vehicle->name}}</option>
-                                @endforeach
-                            </select>
-                            @error('gender') {{ $message ?? '' }} @enderror
                         </div>
                     </div>
                     <div class="tile-body">

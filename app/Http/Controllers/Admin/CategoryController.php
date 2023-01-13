@@ -7,6 +7,7 @@ use App\Contracts\CategoryContract;
 use App\Contracts\RestaurantContract;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
+use App\Models\Category;
 
 class CategoryController extends BaseController
 {
@@ -37,7 +38,9 @@ class CategoryController extends BaseController
 
     public function index()
     {
-        $categories = $this->categoryRepository->allCategoryList();
+        $categories = $this->categoryRepository->allCategoryListTree();
+
+        //dd($categories);
 
         $this->setPageTitle('Category', 'List of all categories');
         return view('admin.category.index', compact('categories'));
@@ -48,10 +51,11 @@ class CategoryController extends BaseController
      */
     public function create()
     {
-        $restaurants = $this->restaurantRepository->getActiveRestaurants();
+        $categories = Category::where('parent_id', '=', 0)->get();
+        //dd($categories);
 
         $this->setPageTitle('Category', 'Create category');
-        return view('admin.category.create',compact('restaurants'));
+        return view('admin.category.create',compact('categories'));
     }
 
     /**
@@ -83,9 +87,9 @@ class CategoryController extends BaseController
     public function edit($id)
     {
         $targetCategory = $this->categoryRepository->findCategoryById($id);
-        
+        $categories = Category::where('parent_id', '=', 0)->get();
         $this->setPageTitle('Category', 'Edit Category : '.$targetCategory->title);
-        return view('admin.category.edit', compact('targetCategory'));
+        return view('admin.category.edit', compact('targetCategory','categories'));
     }
 
     /**
@@ -97,7 +101,7 @@ class CategoryController extends BaseController
     {
         $this->validate($request, [
             'title'      =>  'required|max:191',
-            'image'     =>  'mimes:jpg,jpeg,png|max:1000',
+            //'image'     =>  'mimes:jpg,jpeg,png|max:1000',
         ]);
 
         $params = $request->except('_token');

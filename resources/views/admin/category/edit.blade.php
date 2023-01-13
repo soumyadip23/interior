@@ -15,6 +15,20 @@
                     @csrf
                     <div class="tile-body">
                         <div class="form-group">
+                            <label class="control-label" for="category">Parent Category <span class="m-l-5 text-danger"> *</span></label>
+                            <select class="form-control" name="parent_id">
+                                <option value="">Select Category</option>
+                                @foreach($categories as $category)
+                                    <option value="{{$category->id}}" {{ $category->id == $targetCategory->parent_id ? 'selected' : '' }}>{{$category->title}}</option>
+                                        @if(count($category->childs))
+                                            @include('manageChild',['childs' => $category->childs])
+                                        @endif
+                               @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="tile-body">
+                        <div class="form-group">
                             <label class="control-label" for="name">Category Title <span class="m-l-5 text-danger"> *</span></label>
                             <input class="form-control @error('name') is-invalid @enderror" type="text" name="title" id="title" value="{{ old('name', $targetCategory->title) }}"/>
                             <input type="hidden" name="id" value="{{ $targetCategory->id }}">

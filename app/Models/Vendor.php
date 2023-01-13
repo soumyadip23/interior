@@ -1,24 +1,5 @@
 <?php
 
-// namespace App\Models;
-
-// use Illuminate\Database\Eloquent\Model;
-// use Illuminate\Foundation\Auth\User as Authenticatable;
-
-// class User extends Authenticatable
-// {
-//     protected $table = 'users';
-
-// 	protected $fillable = [
-// 	   'name', 'mobile', 'email', 'otp', 'country', 'city', 'address', 'is_verified', 'status', 'is_deleted'
-// 	];
-
-// 	//hasMany relation with Loop Model
-// 	public function loops()
-// 	{
-//     	return $this->hasMany(Loop::class);
-// 	}
-// }
 namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;

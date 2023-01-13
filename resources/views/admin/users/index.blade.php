@@ -52,9 +52,11 @@ $order_placed = (isset($_GET['order_placed']) && $_GET['order_placed']!='')?$_GE
                                 
                                 <td style="padding: 10px 5px;">
                                     Select categories  <br/>
+                                    
                                     <select class="form-control categorySelect" name="cat_id[]" multiple="multiple">
                                             {{-- <option value="">Select Category</option> --}}
                                             @foreach($categories as $cat)
+                                           
                                             <option value="{{$cat->id}}" <?php if($cat_id !="") { $res = in_array($cat->id,$cat_id); if($res){ echo 'selected';}else{ echo '';}}?>>{{$cat->title}}</option>
                                             @endforeach
                                         </select>

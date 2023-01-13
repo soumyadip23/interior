@@ -17,6 +17,7 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
+                                <th>Parent Category </th>
                                 <th> Title </th>
                                 <th> Image </th>
                                 <th> Status </th>
@@ -25,12 +26,14 @@
                         </thead>
                         <tbody>
                             @foreach($categories as $key => $category)
+                            <?php //dd($category['id']); ?>
                                 <tr>
-                                    <td>{{ $category->id }}</td>
-                                    <td>{{ $category->title }}</td>
+                                    <td>{{ $category['id']  }}</td>
+                                    <td>{{ $category['parent_name'] }}</td>
+                                    <td>{{ $category['title'] }}</td>
                                     <td>
-                                        @if($category->image!='')
-                                        <img style="width: 50px;height: 50px;" src="{{URL::to('/').'/categories/'}}{{$category->image}}">
+                                        @if($category['image']!='')
+                                        <img style="width: 50px;height: 50px;" src="{{URL::to('/').'/categories/'}}{{$category['image']}}">
                                         @endif
                                     </td>
                                     <td class="text-center">

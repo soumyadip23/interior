@@ -81,6 +81,8 @@ class UserRepository extends BaseRepository implements UserContract
             $user->country = $collection['country'];
             $user->city = $collection['city'];
             $user->address = $collection['address'];
+            $user->lat = $collection['lat'];
+            $user->long = $collection['long'];
             $user->contact_person = $collection['contact_person'];
             $user->contact_no = $collection['contact_no'];
            

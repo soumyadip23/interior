@@ -40,6 +40,9 @@ use App\Repositories\RestaurantCouponRepository;
 use App\Contracts\LeadContract;
 use App\Repositories\LeadRepository;
 
+use App\Contracts\ItemContract;
+use App\Repositories\ItemRepository;
+
 class RepositoryServiceProvider extends ServiceProvider
 {
     protected $repositories = [
@@ -61,6 +64,7 @@ class RepositoryServiceProvider extends ServiceProvider
         CouponContract::class               =>  CouponRepository::class,
         RestaurantCouponContract::class     =>  RestaurantCouponRepository::class,
         LeadContract::class                 =>  LeadRepository::class,
+        ItemContract::class                 =>  ItemRepository::class,
     ];
 
     /**
