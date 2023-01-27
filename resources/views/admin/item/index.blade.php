@@ -19,8 +19,7 @@
                                 <th>Id</th>
                                 <th> Category</th>
                                 <th> Name </th>
-                                <th> Unit  </th>
-                                <th> Price </th>
+                                <th class="align-center"> Status</th>
                                 <th style="width:100px; min-width:100px;" class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -30,8 +29,16 @@
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item['category']->title }}</td>
                                     <td>{{ $item->name}}</td>
-                                    <td>{{ $item->unit}}</td>
-                                    <td>{{ $item->price}}</td>
+                                    <td> <div class="toggle-button-cover margin-auto">
+                                        <div class="button-cover">
+                                            <div class="button-togglr b2" id="button-11">
+                                                <input id="toggle-block" type="checkbox" name="status" class="checkbox" data-item_id="{{ $item->id }}" {{ $item->status == 1 ? 'checked' : '' }}>
+                                                <div class="knobs"><span>Inactive</span></div>
+                                                <div class="layer"></div>
+                                            </div>
+                                        </div>
+                                    </div></td>
+                        
                                
                                 <td class="text-center">
                                     <div class="btn-group" role="group" aria-label="Second group">
@@ -78,7 +85,7 @@
     </script>
     <script type="text/javascript">
         $('input[id="toggle-block"]').change(function() {
-            var blog_id = $(this).data('blog_id');
+            var blog_id = $(this).data('item_id');
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             var check_status = 0;
           if($(this).is(":checked")){
@@ -89,7 +96,7 @@
           $.ajax({
                 type:'POST',
                 dataType:'JSON',
-                url:"{{route('admin.blog.updateStatus')}}",
+                url:"{{route('admin.item.updateStatus')}}",
                 data:{ _token: CSRF_TOKEN, id:blog_id, check_status:check_status},
                 success:function(response)
                 {

@@ -47,11 +47,26 @@
                         </label>
                     </div>
                 </div>
+
                 <a class="" href="{{ route('admin.password.request') }}">Forgot Your Password?</a>
             </div>
             <div class="form-group btn-container">
                 <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-sign-in fa-lg fa-fw"></i>SIGN IN</button>
             </div>
+            @if (\Session::has('success'))
+            <div class="alert alert-success">
+                <ul>
+                    <li>{!! \Session::get('success') !!}</li>
+                </ul>
+            </div>
+        @endif
+        @if (\Session::has('failure'))
+            <div class="alert alert-danger">
+                <ul>
+                    <li>{!! \Session::get('failure') !!}</li>
+                </ul>
+            </div>
+        @endif
         </form>
     </div>
 </section>

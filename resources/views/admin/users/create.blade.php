@@ -42,6 +42,20 @@
                     </div>
                     <div class="tile-body">
                         <div class="form-group">
+                            <label class="control-label" for="password">Password <span class="m-l-5 text-danger"> *</span></label>
+                            <input class="form-control @error('password') is-invalid @enderror" type="password" autocomplete="off" name="password" id="password" value="{{ old('password') }}"/>
+                            @error('password') {{ $message ?? '' }} @enderror
+                        </div>
+                    </div>
+                    <div class="tile-body">
+                        <div class="form-group">
+                            <label class="control-label" for="account_no">Account No <span class="m-l-5 text-danger"> *</span></label>
+                            <input class="form-control @error('account_no') is-invalid @enderror" type="text" autocomplete="off" name="account_no" id="account_no" value="{{ old('account_no') }}"/>
+                            @error('account_no') {{ $message ?? '' }} @enderror
+                        </div>
+                    </div>
+                    <div class="tile-body">
+                        <div class="form-group">
                             <label class="control-label" for="country">Country</label>
                             <input class="form-control" type="text" name="country" id="country" value="{{ old('country') }}"/>
                         </div>
@@ -62,25 +76,26 @@
                     </div>
                     <div class="tile-body">
                         <div class="form-group">
-                            <label class="control-label" for="contact_person">Contact Person </label>
+                            <label class="control-label" for="contact_person">Support Contact Person </label>
                             <input class="form-control" type="text" name="contact_person" id="contact_person" value="{{ old('contact_person') }}"/>
                         </div>
                     </div>
                     <div class="tile-body">
                         <div class="form-group">
-                            <label class="control-label" for="contact_no">Contact NO</label>
+                            <label class="control-label" for="contact_no"> Support Contact No</label>
                             <input class="form-control" type="text" name="contact_no" id="contact_no" value="{{ old('contact_no') }}"/>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label" for="name">Select categories <span class="m-l-5 text-danger"> *</span></label>
-                        <select class="form-control categorySelect" name="cat_id[]" multiple="multiple">
+                        <select class="form-control categorySelect @error('cat_id') is-invalid @enderror" name="cat_id[]" multiple="multiple">
                             {{-- <option value="">Select Category</option> --}}
                             @foreach($categories as $cat)
                             <option value="{{$cat->id}}">{{$cat->title}}</option>
                             @endforeach
                         </select>
+                        @error('cat_id') {{ $message ?? '' }} @enderror
                     </div>
                  
                     <div class="tile-footer">

@@ -19,8 +19,8 @@
                 <hr>
                 <form action="{{ route('admin.category.store') }}" method="POST" role="form" enctype="multipart/form-data">
                     @csrf
-                    <div class="tile-body">
-                        <div class="form-group">
+                    {{-- <div class="tile-body">
+                        <div class="form-group" style="display: block;">
                             <label class="control-label" for="category">Parent Category <span class="m-l-5 text-danger"> *</span></label>
                             <select class="form-control" name="parent_id">
                                 <option value="">Select Category</option>
@@ -32,12 +32,13 @@
                                @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="tile-body">
                         <div class="form-group">
                             <label class="control-label" for="name">Category Title <span class="m-l-5 text-danger"> *</span></label>
                             <input class="form-control @error('title') is-invalid @enderror" type="text" name="title" id="title" value="{{ old('title') }}"/>
                             @error('title') {{ $message ?? '' }} @enderror
+                            <input type="hidden" name="parent_id" value="0">
                         </div>
                         <div class="form-group">
                             <label class="control-label">Category Image</label>

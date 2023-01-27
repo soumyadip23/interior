@@ -75,7 +75,8 @@ class UserRepository extends BaseRepository implements UserContract
             $user = new Vendor;
             $user->name = $collection['name'];
             $user->email = $collection['email'];
-            $user->password = '';
+            $user->password = bcrypt($params['password']);
+            $user->account_no = $collection['account_no'];
             $user->mobile = $collection['mobile'];
             $user->otp = 1234;
             $user->country = $collection['country'];
@@ -114,6 +115,7 @@ class UserRepository extends BaseRepository implements UserContract
      * @return User|mixed
      */
     public function updateUser(array $params){
+        //dd($params);
         $user = $this->findOneOrFail($params['id']); 
         $collection = collect($params)->except('_token'); 
 
@@ -122,9 +124,12 @@ class UserRepository extends BaseRepository implements UserContract
         //$user->image = $collection['image'];
          $user->country = $collection['country'];
         // $user->city = $collection['city'];
+         $user->account_no = $collection['account_no'];
          $user->address = $collection['address'];
          $user->contact_person = $collection['contact_person'];
          $user->contact_no = $collection['contact_no'];
+         $user->lat = $collection['lat'];
+         $user->long = $collection['long'];
         //$user->gender = $collection['gender'];
         //$user->date_of_birth = $collection['date_of_birth'];
 

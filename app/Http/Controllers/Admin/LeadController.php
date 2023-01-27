@@ -153,6 +153,9 @@ class LeadController extends BaseController
            $assigned_staff =  DeliveryBoy::where('id',$lead->assigned_to)->first();  
           // dd($assigned_staff);
         }
+        else{
+            $assigned_staff = '';
+        }
 
         $this->setPageTitle('lead', 'Lead Details : '.$lead->id);
         return view('admin.lead.details', compact('lead','assigned_staff'));

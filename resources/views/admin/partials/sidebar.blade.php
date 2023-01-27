@@ -134,6 +134,12 @@
             </a>
         </li> 
         <li>
+            <a class="app-menu__item {{ sidebar_open(['admin.measurement']) }}"
+                href="{{ route('admin.measurement.index') }}"><i class="app-menu__icon fa fa-cogs"></i>
+                <span class="app-menu__label">Measurement Management</span>
+            </a>
+        </li> 
+        <li>
             <a class="app-menu__item {{ sidebar_open(['admin.settings']) }}"
                 href="{{ route('admin.settings') }}"><i class="app-menu__icon fa fa-cogs"></i>
                 <span class="app-menu__label">Site Settings</span>

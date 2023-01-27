@@ -12,6 +12,8 @@ use App\Models\LeadFeedback;
 use Illuminate\Support\Facades\Session;
 use App\Models\Item;
 use App\Models\Category;
+use App\Models\ItemVariation;
+use Illuminate\Support\Facades\Validator;
 
 
 class ItemController extends BaseController
@@ -69,15 +71,13 @@ class ItemController extends BaseController
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'category_id'      =>  'required|max:191',
+       $res =  $this->validate($request, [
+            'category_id'      =>  'required',
             'name'     =>  'required',
-            'unit'     =>  'required',
-            'price'     =>  'required',
         ]);
-
+       
         $params = $request->except('_token');
-        
+
         $item = $this->itemRepository->createItem($params);
 
         if (!$item) {
@@ -126,6 +126,17 @@ class ItemController extends BaseController
         return $this->responseRedirectBack('Lead  has been updated successfully' ,'success',false, false);
     }
 
+    public function updateStatus(Request $request){
+
+        $params = $request->except('_token');
+
+        $boy = $this->itemRepository->updateItemStatus($params);
+
+        if ($boy) {
+            return response()->json(array('message'=>'Delivery boy status successfully updated'));
+        }
+    }
+
     /**
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
@@ -161,12 +172,25 @@ class ItemController extends BaseController
 
         $params = $request->except('_token');
 
-        $item = Item::where('id',$params['itemID'])->first();
+        $item = ItemVariation::where('id',$params['itemID'])->first();
 
         //dd($params['itemID']);
 
         if ($item) {
             return response()->json(array('message'=>$item['price'] ));
+        }
+    }
+
+    public function fetchVariations(Request $request){
+
+        $params = $request->except('_token');
+
+        $item = ItemVariation::where('item_id',$params['itemID'])->get();
+
+        //dd($params['itemID']);
+
+        if ($item) {
+            return response()->json(array('message'=>$item ));
         }
     }
 }

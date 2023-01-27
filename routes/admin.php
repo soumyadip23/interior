@@ -258,17 +258,30 @@ Route::group(['prefix' => 'admin'], function () {
 			Route::get('/{id}/delete', 'Admin\ItemController@delete')->name('admin.item.delete');
 			Route::get('/{id}/details', 'Admin\ItemController@details')->name('admin.item.details');
 			Route::post('fetchPrice', 'Admin\ItemController@fetchPrice')->name('admin.item.fetchPrice');
+			Route::post('updateStatus', 'Admin\ItemController@updateStatus')->name('admin.item.updateStatus');
+			Route::post('fetchVariations', 'Admin\ItemController@fetchVariations')->name('admin.item.fetchVariations');
 		});
 
 
 		Route::group(['prefix'  =>   'quatation'], function() {
 			Route::get('/', 'Admin\QuatationController@index')->name('admin.quatation.index');
 			Route::get('/create', 'Admin\QuatationController@create')->name('admin.quatation.create');
-			Route::post('/store', 'Admin\Quatationtroller@store')->name('admin.quatation.store');
+			Route::post('/store', 'Admin\QuatationController@store')->name('admin.quatation.store');
 			Route::get('/{id}/edit', 'Admin\QuatationController@edit')->name('admin.quatation.edit');
 			Route::post('/update', 'Admin\QuatationController@update')->name('admin.quatation.update');
 			Route::get('/{id}/delete', 'Admin\QuatationController@delete')->name('admin.quatation.delete');
 			Route::get('/{id}/details', 'Admin\QuatationController@details')->name('admin.quatation.details');
+			Route::get('/{id}/sendToCustomer', 'Admin\QuatationController@sendToCustomer')->name('admin.quatation.sendToCustomer');
+		});
+
+		Route::group(['prefix'  =>   'measurement'], function() {
+			Route::get('/', 'Admin\MeasurementController@index')->name('admin.measurement.index');
+			Route::get('/create', 'Admin\MeasurementController@create')->name('admin.measurement.create');
+			Route::post('/store', 'Admin\MeasurementController@store')->name('admin.measurement.store');
+			Route::get('/{id}/edit', 'Admin\MeasurementController@edit')->name('admin.measurement.edit');
+			Route::post('/update', 'Admin\MeasurementController@update')->name('admin.measurement.update');
+			Route::get('/{id}/delete', 'Admin\MeasurementController@delete')->name('admin.measurement.delete');
+			Route::get('/{id}/details', 'Admin\MeasurementController@details')->name('admin.measurement.details');
 		});
 
 

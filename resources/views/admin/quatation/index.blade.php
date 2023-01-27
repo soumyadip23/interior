@@ -17,10 +17,10 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th> Category</th>
-                                <th> Name </th>
-                                <th> Unit  </th>
-                                <th> Price </th>
+                                <th> Lead No</th>
+                                <th> Expiry Date </th>
+                                <th> Status  </th>
+                                <th> Amount </th>
                                 <th style="width:100px; min-width:100px;" class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -28,15 +28,16 @@
                             @foreach($items as $key => $item)
                                 <tr>
                                     <td>{{ $item->id }}</td>
-                                    <td>{{ $item['category']->title }}</td>
-                                    <td>{{ $item->name}}</td>
-                                    <td>{{ $item->unit}}</td>
-                                    <td>{{ $item->price}}</td>
+                                    <td>{{ $item->lead_id }}</td>
+                                    <td>{{ $item->expiry_date}}</td>
+                                    <td>{{ $item->status}}</td>
+                                    <td>{{ $item->total}}</td>
                                
                                 <td class="text-center">
                                     <div class="btn-group" role="group" aria-label="Second group">
-                                        <a href="{{ route('admin.item.edit', $item['id']) }}" class="btn btn-sm btn-primary edit-btn"><i class="fa fa-edit"></i></a>
-                                        <a href="{{ route('admin.item.details', $item['id']) }}" class="btn btn-sm btn-primary edit-btn"><i class="fa fa-eye"></i></a>
+                                        <a href="{{ route('admin.quatation.edit', $item['id']) }}" class="btn btn-sm btn-primary edit-btn"><i class="fa fa-edit"></i></a>
+                                        <a href="{{ route('admin.quatation.details', $item['id']) }}" class="btn btn-sm btn-primary edit-btn"><i class="fa fa-eye"></i></a>
+                                        <a href="{{ route('admin.quatation.sendToCustomer', $item['id']) }}" class="btn btn-sm btn-primary edit-btn"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
                                         <a href="#" data-id="{{$item['id']}}" class="sa-remove btn btn-sm btn-danger edit-btn"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </td>
@@ -69,7 +70,7 @@
         },
         function(isConfirm){
           if (isConfirm) {
-            window.location.href = "item/"+itemid+"/delete";
+            window.location.href = "quatation/"+itemid+"/delete";
             } else {
               swal("Cancelled", "Record is safe", "error");
             }

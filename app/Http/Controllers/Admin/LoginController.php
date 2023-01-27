@@ -58,7 +58,8 @@ class LoginController extends Controller
         ], $remember_me)) {
             return redirect()->intended(route('admin.dashboard'));
         }
-        return back()->withInput($request->only('email', 'remember'));
+        //return back()->withInput($request->only('email', 'remember'));
+        return redirect()->back()->with('failure', 'Wrong Credential');
     }
 
     /**

@@ -16,31 +16,19 @@
                 <hr>
                 <form action="{{ route('admin.item.store') }}" method="POST" role="form" enctype="multipart/form-data">
                     @csrf
-           
-                    {{-- <div class="tile-body">
-                        <div class="form-group">
-                            <label class="control-label" for="category">Category <span class="m-l-5 text-danger"> *</span></label>
-                            <select class="form-control" name="category_id">
-                                <option value="">Select Category</option>
-                                @foreach($categories as $category)
-                                <option value="{{$category->id}}">{{$category->title}}</option>
-                                @endforeach
-                            </select>
-                            @error('category_id') {{ $message ?? '' }} @enderror
-                        </div>
-                    </div> --}}
                     <div class="tile-body">
                         <div class="form-group">
                             <label class="control-label" for="category">Category <span class="m-l-5 text-danger"> *</span></label>
-                            <select class="form-control" name="category_id">
+                            <select class="form-control @error('category_id') is-invalid @enderror" name="category_id">
                                 <option value="">Select Category</option>
                                 @foreach($categories as $category)
-                                    <option value="{{$category->id}}" disabled>{{$category->title}}</option>
+                                    <option value="{{$category->id}}">{{$category->title}}</option>
                                         @if(count($category->childs))
                                             @include('manageChild',['childs' => $category->childs])
                                         @endif
                                @endforeach
                             </select>
+                            @error('category_id') {{ $message ?? '' }} @enderror
                        </div>
                     </div>
                     <div class="tile-body">
@@ -53,8 +41,8 @@
                     <div class="tile-body">
                         <div class="form-group">
                             <label class="control-label">Image</label>
-                            <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image"/>
-                            @error('image') {{ $message }} @enderror
+                            <input class="form-control" type="file" id="image" name="image"/>
+                
                         </div>
                     </div>
                     <div class="tile-body">
@@ -68,19 +56,19 @@
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label class="control-label" for="unit">Varient Name <span class="m-l-5 text-danger"> *</span></label>
-                                <input class="form-control" type="text" name="vname[]" id="name1" value="{{ old('name') }}"/>
+                                <input class="form-control" type="text" name="vname[]" id="name1" value=""/>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label class="control-label" for="unit">Unit <span class="m-l-5 text-danger"> *</span></label>
-                                <input class="form-control" type="text" name="unit[]" id="unit1" value="{{ old('unit') }}"/>
+                                <input class="form-control" type="text" name="unit[]" id="unit1" value=""/>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label class="control-label" for="price">Price <span class="m-l-5 text-danger"> *</span></label>
-                                <input class="form-control"  name="price[]" id="price1" value="{{ old('price') }}"/>
+                                <input class="form-control"  name="price[]" id="price1" value=""/>
                             </div>
                         </div>
                         <div class="col-sm-3">
@@ -114,7 +102,7 @@
  var i = 2; 
     $("#rowAdder").click(function () {
         newRowAdd =
-         '<div class="row concat"><div class="col-sm-3"><div class="form-group"><label class="control-label" for="unit">Name <span class="m-l-5 text-danger"> *</span></label><input class="form-control" type="text" name="vname[]" id="name'+i+'" value="{{ old('name') }}"/></div></div><div class="col-sm-3"><div class="form-group"><label class="control-label" for="unit">Unit <span class="m-l-5 text-danger"> *</span></label><input class="form-control" type="text" name="unit[]" id="unit'+i+'" value="{{ old('unit') }}"/></div></div><div class="col-sm-3"><div class="form-group"><label class="control-label" for="price">Price <span class="m-l-5 text-danger"> *</span></label><input class="form-control"  name="price[]" id="price'+i+'" value="{{ old('price') }}"/></div></div><div class="col-sm-2"><div class="form-group"><label class="control-label" for="in_stock">In Stock? <span class="m-l-5 text-danger"> *</span></label><select class="form-control" name="in_stock[]" id="in_stock'+i+'"><option value="">Select Type</option><option value="1">Yes</option><option value="0">No</option></select></div></div><div class="col-sm-1"><button class="btn btn-danger DeleteRow" type="button"><i class="bi bi-trash"></i> Delete</button></div></div>';
+         '<div class="row concat"><div class="col-sm-3"><div class="form-group"><label class="control-label" for="unit">Name <span class="m-l-5 text-danger"> *</span></label><input class="form-control" type="text" name="vname[]" id="name'+i+'" value=""/></div></div><div class="col-sm-3"><div class="form-group"><label class="control-label" for="unit">Unit <span class="m-l-5 text-danger"> *</span></label><input class="form-control" type="text" name="unit[]" id="unit'+i+'" value=""/></div></div><div class="col-sm-3"><div class="form-group"><label class="control-label" for="price">Price <span class="m-l-5 text-danger"> *</span></label><input class="form-control"  name="price[]" id="price'+i+'" value=""/></div></div><div class="col-sm-2"><div class="form-group"><label class="control-label" for="in_stock">In Stock? <span class="m-l-5 text-danger"> *</span></label><select class="form-control" name="in_stock[]" id="in_stock'+i+'"><option value="">Select Type</option><option value="1">Yes</option><option value="0">No</option></select></div></div><div class="col-sm-1"><button class="btn btn-danger DeleteRow" type="button"><i class="bi bi-trash"></i> Delete</button></div></div>';
 
         $('#newinput').append(newRowAdd);
     });

@@ -137,7 +137,7 @@ class DeliveryBoyController extends BaseController
         $boy = $this->deliveryBoyRepository->updateDeliveryBoyStatus($params);
 
         if ($boy) {
-            return response()->json(array('message'=>'Delivery boy status successfully updated'));
+            return response()->json(array('message'=>'Item status successfully updated'));
         }
     }
 

@@ -9,7 +9,7 @@ class LeadFeedback extends Model
     protected $table = 'lead_feedbacks';
 
 	protected $fillable = [
-	   'id','lead_id', 'client_comment','staff_comment','next_follow_date'
+	   'id','lead_id', 'document','client_comment','staff_comment','next_follow_date','created_by'
 	];
 
 	//hasMany relation with Blogtag Model

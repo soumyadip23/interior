@@ -19,7 +19,7 @@ class Vendor extends Authenticatable implements JWTSubject
     //     'name', 'email', 'password','mobile'
     // ];
      protected $fillable = [
-        'name', 'mobile', 'email','image', 'password', 'otp', 'country', 'city', 'contact_person', 'contact_no', 'address', 'is_verified', 'status', 'is_deleted','device_id','device_token'
+        'name', 'mobile', 'email','image', 'password','account_no', 'otp', 'country', 'city', 'contact_person', 'contact_no', 'address', 'is_verified', 'status', 'is_deleted','device_id','device_token'
      ];
 
     /**

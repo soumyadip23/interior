@@ -67,8 +67,12 @@ class CategoryRepository extends BaseRepository implements CategoryContract
 
             $category = new Category;
             $category->title = $collection['title'];
-            $category->parent_id = $collection['parent_id'];
-        
+            if($collection['parent_id'] != ''){
+              $category->parent_id = $collection['parent_id'];
+            }
+            else{
+                $category->parent_id = 0;
+            }
             $category->description = '';
             $category->status = '1';
 
@@ -97,7 +101,13 @@ class CategoryRepository extends BaseRepository implements CategoryContract
         $collection = collect($params)->except('_token'); 
 
         $category->title = $collection['title'];
-        $category->parent_id = $collection['parent_id'];
+
+            if($collection['parent_id'] != ''){
+              $category->parent_id = $collection['parent_id'];
+            }
+            else{
+                $category->parent_id = 0;
+            }
 
        // dd($collection);
       

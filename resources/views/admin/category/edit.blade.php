@@ -13,7 +13,7 @@
                 <h3 class="tile-title">{{ $subTitle }}</h3>
                 <form action="{{ route('admin.category.update') }}" method="POST" role="form" enctype="multipart/form-data">
                     @csrf
-                    <div class="tile-body">
+                    {{-- <div class="tile-body">
                         <div class="form-group">
                             <label class="control-label" for="category">Parent Category <span class="m-l-5 text-danger"> *</span></label>
                             <select class="form-control" name="parent_id">
@@ -26,12 +26,13 @@
                                @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="tile-body">
                         <div class="form-group">
                             <label class="control-label" for="name">Category Title <span class="m-l-5 text-danger"> *</span></label>
                             <input class="form-control @error('name') is-invalid @enderror" type="text" name="title" id="title" value="{{ old('name', $targetCategory->title) }}"/>
                             <input type="hidden" name="id" value="{{ $targetCategory->id }}">
+                            <input type="hidden" name="parent_id" value="0">
                             @error('title') {{ $message }} @enderror
                         </div>
                         

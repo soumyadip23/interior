@@ -98,12 +98,13 @@ class UserManagementController extends BaseController
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+       $res =  $this->validate($request, [
             'name'      =>  'required|max:50',
             'email'     =>  'required',
-            'mobile'    =>  'required|numeric'
-        ]);
+            'contact_no'    =>  'required|numeric',
+            'cat_id'    =>  'required',
 
+        ]);
         $params = $request->except('_token');
         
         $user = $this->UserRepository->createUser($params);
@@ -177,9 +178,12 @@ class UserManagementController extends BaseController
      */
     public function update(Request $request)
     {
+        //dd($request);
          $this->validate($request, [
             'name'      =>  'required|max:50',
             'email'     =>  'required',
+            'contact_no'    =>  'required|numeric',
+            'cat_id'    =>  'required',
         ]);
 
         $params = $request->except('_token');
